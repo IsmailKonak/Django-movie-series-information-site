@@ -1,0 +1,109 @@
+{% extends "registration/base.html" %}
+
+
+{%block title%}Register{%endblock%}
+
+{%block content%}
+<div class="container">
+    <div class="card bg-white" style="max-width: 600px; position: relative; margin: auto; opacity: 0.95; top: 20px;">
+    <article class="card-body mx-auto" style="max-width: 400px; max-height: fit-content;">
+        <h4 class="card-title mt-3 text-center">Create Account</h4>
+        <p class="text-center">Get started with your free account</p>
+        
+        <form method="post" action="{% url  'register'%}" enctype="multipart/form-data" >
+            {% csrf_token%}
+            <div class="form-group input-group">
+                <span class="input-group-text"> <i class="bi bi-person-circle"></i> </span>
+                <input required name="profile_pic" class="form-control" type="file">
+            </div>
+
+        <div class="form-group input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="bi bi-person"></i> </span>
+             </div>
+            <input required name="username" class="form-control" placeholder="Username" type="text" value="{{username}}">
+        </div>
+
+        <div class="form-group input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="bi bi-person"></i> </span>
+             </div>
+            <input required name="fname" class="form-control" placeholder="First Name" type="text" value="{{fname}}">
+        </div>
+
+        <div class="form-group input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="bi bi-person"></i> </span>
+             </div>
+            <input required name="lname" class="form-control" placeholder="Last Name" type="text" value="{{lname}}">
+        </div> 
+        
+        <div class="form-group input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="bi bi-at"></i> </span>
+             </div>
+            <input required name="email" class="form-control" placeholder="Email address" type="email" value="{{email}}">
+        </div>
+
+        <div class="form-group input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="bi bi-calendar"></i> </span>
+             </div>
+            <input required type="date" class="form-control" name="birthday" 
+            placeholder="dd-mm-yyyy" value=""
+            min="1000-01-01" max="2030-12-31" value="{{birthday}}">
+        </div> 
+
+        <div class="form-group input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="bi bi-shield-lock"></i> </span>
+            </div>
+            
+            <input required name="password1" class="form-control" placeholder="Create password" type="password">
+        </div>
+        <div class="form-group input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="bi bi-shield-lock"></i> </span>
+            </div>
+            <input required name="password2" class="form-control" placeholder="Confirm password" type="password">
+        </div>
+        
+        <hr>
+        <p class="text-center">Social Medias</p>
+
+        <div class="form-group input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="bi bi-instagram"></i> </span>
+             </div>
+            <input name="instagram" class="form-control" placeholder="Your Intagram Username" type="text" value="{{instagram}}">
+        </div>
+
+        <div class="form-group input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text"> <i class="bi bi-twitter"></i> </span>
+             </div>
+            <input name="twitter" class="form-control" placeholder="Your Twitter Username" type="text" value="{{twitter}}">
+        </div>
+
+        <div class="form-group input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text "> <i class="bi bi-facebook"></i> </span>
+             </div>
+            <input name="facebook" class="form-control" placeholder="Your Facebook Username" type="text" value="{{facebook}}">
+        </div>
+
+        
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary bg-ismailblue btn-block" style="border-color:transparent ;"> Create Account  </button>
+        </div> <!-- form-group// -->      
+        <p class="text-center ">Have an account? <a class="ismailblue" href="{%url 'login' %}">Log In</a> </p>                                                                 
+    </form>
+    </article>
+    </div> <!-- card.// -->
+    
+    </div> 
+    <!--container end.//-->
+
+
+{%endblock%}

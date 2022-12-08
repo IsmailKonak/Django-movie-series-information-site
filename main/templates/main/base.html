@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <title>IMongolianDB - {%block title%}{%endblock%}</title>
+    <style>
+      .blueblackgrad{
+        background: rgb(0,47,107);
+        background: radial-gradient(circle, rgba(0,47,107,1) 0%, rgba(0,19,43,1) 50%, rgba(0,0,0,1) 100%);
+      
+      }
+      .bg-ismailblue{
+        background: rgba(0,19,43,1);
+      
+      }
+      .bg-ismailblue:hover{
+        background: rgb(0, 37, 85);
+      }
+      .ismailblue{
+        color: rgba(0,19,43,1);
+      }
+      .ismailblue:hover{
+        color: rgb(0,37,85);
+      
+      }
+      .logoutbutton:link{
+        color: rgba(0,19,43,1);
+      }
+      .logoutbutton:visited{
+        color: rgba(0,19,43,1);
+      }
+      .logoutbutton{
+        color: rgba(255,255,255,1);
+        background-color: red;
+      }
+      .addcontentbutton{
+        color: rgba(0,19,43,1);
+        background-color: white;
+      }
+      .addcontentbutton:hover{
+        color: rgba(0,19,43,1);
+        background-color: rgb(219, 219, 219);
+      }
+      .logoutbutton:hover{
+        color: rgba(255,255,255,1);
+        background-color: rgb(219, 0, 0);
+      }
+  </style>
+    {%block external%}{%endblock%}
+    
+  </head>
+  <body class="blueblackgrad">
+    
+    <nav class="shadow-sm navbar navbar-expand-lg navbar-dark sticky-top blueblackgrad" style="height: 70px;">
+        <a class="navbar-brand" href="/">IMongolianDB</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav mr-auto">
+            {%if request.path == "/" %}
+              <li class="nav-item active">
+                <a class="nav-link" href="/">Home</a>
+              </li>
+            {%else%}
+              <li class="nav-item ">
+                <a class="nav-link" href="/">Home</a>
+              </li>
+            {%endif%}
+            {%if request.path == "/movies" %}
+              <li class="nav-item active">
+                <a class="nav-link" href="/movies">Movies</a>
+              </li>
+            {%else%}
+              <li class="nav-item">
+                <a class="nav-link" href="/movies">Movies</a>
+              </li>
+            {%endif%}
+
+            {%if request.path == "/series" %}
+              <li class="nav-item active">
+                <a class="nav-link" href="/series">Series</a>
+              </li>
+            {%else%}
+              <li class="nav-item">
+                <a class="nav-link" href="/series">Series</a>
+              </li>
+            {%endif%}
+            
+            {%if request.path == "/search" %}
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'search'%}">Search  <i class="bi bi-search"></i>  
+              </a>
+            </li>
+            {%else%}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'search'%}">Search  <i class="bi bi-search"></i>  
+                </a>
+              </li>
+            {%endif%}
+          </ul>
+          <span class="navbar-text">
+            {%if user.is_authenticated %}
+                <!-- Example split danger button -->
+                <div class="btn-group">
+                  <button onclick="location.href='/profile/{{request.user.username}}'" type="button" class="btn btn-light ismailblue"> <img src="{{user.profile_pic.url}}" class="rounded-circle" height="30px" width="30px" alt="Profile"><span alt="Profile" style="margin-left: 15px;">{{user}}</span></button>
+                  <button type="button" class="btn btn-light ismailblue dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <div class="dropdown-menu ">
+                    <div class="addcontentbutton">
+                      <a class="addcontentbutton dropdown-item " href="{% url 'addcontent'%}" style="color: rgba(0,19,43,1);">Content <i style="margin-left:10px;" class="bi bi-plus-square-fill"></i></a>
+                    </div>
+
+                    <div class="logoutbutton">
+                      <a class="logoutbutton dropdown-item " href="{% url 'logout'%}" >Log Out <i style="margin-left:10px;" class="bi bi-box-arrow-right"></i></a>
+                    </div>
+
+                  </div>
+                </div>
+            {%else%}
+            <div class="btn-group">
+              <a role="button" class="btn btn-light ismailblue text-center" href="{% url 'login'%}" style="text-decoration: none;padding-right: 20px;  border-style: none solid none none; border-color:rgba(0,19,43,1);"><span class="ismailblue" style="margin-left: 5px;">Login</span></a>
+              <a role="button" class="btn btn-light ismailblue" href="{% url 'register'%}" style="text-decoration: none;border-style: none none none solid; border-color: rgba(0,19,43,1);"><span class="ismailblue">Register</span></a>
+            </div>
+                
+            {%endif%}
+          </span>
+        </div>
+      </nav>
+      
+      {% if messages%}
+            {% for message in messages%}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              {{message}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            
+                
+            {%endfor%}
+        
+        {%endif%}
+
+    <div class="container">
+        {%block content%}
+    
+    
+    
+        {%endblock%}
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>

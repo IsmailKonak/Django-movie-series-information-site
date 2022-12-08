@@ -1,0 +1,148 @@
+{% extends "main/base.html" %}
+
+{%block title%}Search{%endblock%}
+{% block external%}
+<style>
+.searchbar{
+    border-radius: 10px 10px 10px 10px;
+    width:85%;
+    background-color: rgba(255, 255, 255, 0);
+    border-color: #181b64;
+    color: white;
+    box-shadow: 0 0 10px 5px white;
+}
+.searchbar:hover{
+    border-color: #181b64;
+    background-color: rgba(255, 255, 255, 0.01);
+    outline: none;
+}
+.searchbar:focus{
+    border-color: #181b64;
+    background-color: rgba(255, 255, 255, 0.02);
+    outline: none;
+}
+.filters{
+    border-radius: 10px 10px 10px 10px;
+    width:5%;
+    margin-left: 2%;
+    background-color: rgba(255, 255, 255, 0);
+    border-color: white;
+    color: white;
+}
+
+.submit_button{
+    margin-left:1%;
+    width: 4.79%;
+    background-color: transparent;
+    border-color: #181b64;
+    color: white;
+    box-shadow: 0 0 10px 5px white;
+}
+
+.headtext{
+    margin-right: 15px;
+    text-align: center;
+    color: white;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 18px;    
+
+}
+.middletext{
+    border: solid white;
+    box-shadow: 0 0 10px white;
+    width: 80%;
+    height: 64%;
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    top: 32%;
+    border-radius: 10px;
+    text-align: center;
+    padding-top:14% ;
+    color: rgba(255, 255, 255, 0.45);
+}
+.contents_cards{
+    font-size: 13px;
+    position: relative;
+    margin-right: 110px;
+    margin-left: 115px;
+    margin-top: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px 3px white;
+    border: none;
+    height: fit-content;
+    
+    
+}
+.content-card-image{
+  height: 208px;
+  width: 146px;
+  border-radius: 10px;
+}
+
+.card-body{
+    margin-bottom:0px;
+}
+.summarytext{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 500px;
+}
+.resultscards{
+    margin-top: 50px;
+
+}
+</style>
+{% endblock%}
+
+
+{%block content%}
+<form action="{% url 'search' %}" method="post">
+    {% csrf_token%}
+    
+    <div class="headtext">
+        <h1>Search</h1>
+    </div>
+    <div class="input-group" style="position: relative; margin: 5px auto;width: 75%;">
+        <input required type="text" class="searchbar" aria-label="Search..." name="searchbar" value="{{query}}">
+        <button type="submit" class="btn rounded-circle submit_button text-center" ><i class="bi bi-search"></i></button>
+        <button class="btn filters" type="button" data-toggle="modal" data-target="#exampleModalCenter"><i class="bi bi-filter"></i></button>  
+    </div>
+
+</form>
+        {%if result_list != None %}
+        <div class="resultscards">
+            {% for result in result_list%}
+            <div class="card mb-3 contents_cards" >
+                <div class="row no-gutters">
+                  <div class="col-md-2">
+                    <img src="{{ result.poster.url}}" class="content-card-image" alt="...">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body" style="margin-left: 35px;">
+                      {% if result.getcontenttype == "Movie"%}
+                      <h4 class="card-title"><a href="/movies/{{result.url_name}}" style="color: #181b64;text-decoration: none;" ><b>{{result.name}}</b></a></h4>
+                      {% elif result.getcontenttype == "Series"%}
+                      <h4 class="card-title"><a href="/series/{{result.url_name}}" style="color: #181b64;text-decoration: none;" ><b>{{result.name}}</b></a></h4> 
+                      {%endif%}
+                      <p class="card-text summarytext" >{{result.summary}}</p>
+                      <p class="card-text"><b>Director: </b><small class="">{{result.director}}</small></p>
+                      <p class="card-text"><b>Stars: </b><small class="">{%for actor in result.star.all%} {{actor}}, {%endfor%}</small></p>
+                      <p class="card-text"><b>Release: </b><small class="">{{result.release}}</small></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {%endfor%}
+        </div>
+        {%else%}
+
+            <div class="middletext">
+                <h4>Your search results will appear here.</h4>
+            </div>
+
+      {%endif%}
+
+{%endblock%}

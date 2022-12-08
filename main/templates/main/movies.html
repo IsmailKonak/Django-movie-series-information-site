@@ -1,0 +1,170 @@
+{% extends "main/base.html" %}
+
+{%block title%}Movies{%endblock%}
+{%block external%}
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<style>
+.card {
+    margin-bottom: 30px;
+    margin-top: 20px;
+    
+}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid transparent;
+    box-shadow: 0 0 100px 10px;
+    border-radius: 15px;
+}
+.card .card-subtitle {
+    font-weight: 300;
+    margin-bottom: 10px;
+    color: #8898aa;
+}
+.table-product.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f3f8fa!important
+}
+.table-product td{
+    border-top: 0px solid #dee2e6 !important;
+    color: #728299!important;
+}
+.movie_poster{
+    height: 500px;
+    width: 352px;
+    box-shadow: 0 0 10px;
+    margin-left: 0px;
+}
+.dark-color {
+    color: #181b64;
+}
+.whouploaded{
+    color: rgb(0, 0, 0);
+    margin-top: 40px;
+    left: 0;
+    right: 0;
+    width: 200px;
+    height: 80px;
+    
+}
+.contents_cards{
+    font-size: 13px;
+    position: relative;
+    margin-right: 110px;
+    margin-left: 115px;
+    margin-top: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px 3px white;
+    border: none;
+    height: fit-content;
+    
+    
+}
+.content-card-image{
+  height: 208px;
+  width: 146px;
+  border-radius: 10px;
+}
+
+.card-body{
+    margin-bottom:0px;
+}
+.summarytext{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 500px;
+}
+</style>
+{%endblock%}
+
+{%block content%}
+{% if movie_s != None%}
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            
+            <div class="row">
+                <div class="col-lg-5">
+                    <img src="{{movie_s.poster.url}}" class="movie_poster">
+                    <div class="whouploaded">
+                        <span alt="Profile" style="margin-top: 55px; margin-left: 15px;">Uploaded by: </span>
+                        <a href='/profile/{{movie_s.user.username}}' style="margin-top: 55px; margin-left: 5px;text-decoration: none;font-style: italic;">{{movie_s.user}}</a>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-6">
+                    <h2 class="dark-color" style="margin-top: 10px;"><b>{{movie_s.name}}</b></h2>
+                    <h4 class="box-title mt-5">Movie Summary</h4>
+                    <p>{{movie_s.summary}}</p>
+                    <h4 class="box-title mt-5">Movie Details</h4>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-product">
+                            <tbody>
+                                <tr>
+                                    <td><b>Movie Name</b></td>
+                                    <td>{{movie_s.name}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Movie Director</b></td>
+                                    <td>{{movie_s.director}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Movie Writer</b></td>
+                                    <td>{{movie_s.writer}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Movie Stars</b></td>
+                                    <td>{% for star in movie_s.star.all%}{{star}}, {%endfor%}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Movie Release</b></td>
+                                    <td>{{movie_s.release}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Movie Distribution</b></td>
+                                    <td>{{movie_s.distribution}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Movie Categories</b></td>
+                                    <td>{% for category in movie_s.categorie.all%} <a href='/search/category="{{category.category}}"'>{{category}}</a>, {%endfor%}</td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%else%}
+    {% for movie in movies_db%}
+        <div class="card mb-3 contents_cards" >
+          <div class="row no-gutters">
+            <div class="col-md-2">
+              <img src="{{ movie.poster.url}}" class="content-card-image" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body" style="margin-left: 35px;">
+                <h4 class="card-title"><a href="/movies/{{movie.url_name}}" style="color: #181b64;text-decoration: none;" ><b>{{movie.name}}</b></a></h4><!-- Lİnk sıknıtlı-->
+                <p class="card-text summarytext" >{{movie.summary}}</p>
+                <p class="card-text"><b>Director: </b><small class="">{{movie.director}}</small></p>
+                <p class="card-text"><b>Stars: </b><small class="">{%for actor in movie.star.all%} {{actor}}, {%endfor%}</small></p>
+                <p class="card-text"><b>Release: </b><small class="">{{movie.release}}</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {%endfor%}
+
+        {%endif%}
+{%endblock%}
